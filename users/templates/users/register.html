@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Register Page</title>
+    </head>
+    <body>
+        {% if messages %}
+              {% for message in messages %}
+                <div>
+                  {{ message }}
+                </div>
+              {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>Submit</button>
+        </form>
+    </body>
+</html>
