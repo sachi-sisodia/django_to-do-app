@@ -8,6 +8,7 @@ from users.models import CustomUser
 # Create your models here.
 class Task(models.Model):
     title = models.CharField(max_length=256)
+    description = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     date = models.DateField(default=date.today)
     is_completed = models.BooleanField(default=False)
