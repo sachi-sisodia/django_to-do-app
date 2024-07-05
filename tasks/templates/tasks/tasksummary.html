@@ -47,5 +47,11 @@
             </tbody>
         </table>
     {% endif %}
+     {% if messages %}
+        {% for message in messages %}
+        <small {% if messages.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'logout' %}">Logout</a>
 </div>
 {% endblock content %}

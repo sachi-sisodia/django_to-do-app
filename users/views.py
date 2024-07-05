@@ -1,89 +1,41 @@
-from django.shortcuts import render, redirect
-from users.forms import RegisterForm
-from users.forms import LoginForm
+from django.shortcuts import render, HttpResponseRedirect
+from users.forms import SignUpForm
 from django.contrib import messages
-
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 
+#Create your views here
 
-# Create your views here.
-def register(request):
+#sign-up/register function being added to the databse
+def sign_up(request):
     if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            # username= form.cleaned_data()
-            # name= form.cleaned_data()
-            user = form.save()
-            messages.success(
-                request, f"{user.username}, your account has been created!"
-            )
+        fm = SignUpForm(request.POST)
+        if fm.is_valid():
+            messages.success(request, 'Account Created Successfully!')
+            fm.save()
     else:
-        form = RegisterForm()
-    return render(request, "users/register.html", {"form": form})
+        fm= SignUpForm()
+    return render(request, 'users/signup.html',{'form':fm})
 
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
-#             user = authenticate(request, username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect('register')  # Redirect to the home page after successful login
-#             else:
-#                 messages.error(request, 'Invalid username or password')
-#     else:
-# #         form = LoginForm()
-# #     return render(request, 'users/login.html', {'form': form})
-# def login_view(request):
-#     print("-------------------------------------")
-#     print("request ",request)
-#     print("request.method ",request.method)
-#     if request.method == "POST":
-#         print("request.POST ",request.POST)
-#     # if request.method == 'POST':
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
-#             user = authenticate(request, username=username, password=password)
-#             if user:
-#                 login(request, user)
-#                 return redirect('register')
-#             else:
-#                 messages.error(request, 'Invalid username or password')
-#     else:
-#         form = LoginForm()
-#     return render(request, 'users/login.html', {'form': form})
-
-
-def login_view(request):
-    print("-------------------------------------")
-    print("request ", request)
-    print("request.method ", request.method)
-    if request.method == "POST":
-        print("request.POST ", request.POST)
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            print("at line 68", f"Trying to authenticate: {username} / {password}")
-            user = authenticate(request, username=username, password=password)
-            print("at line 70", user)
-            if user:
-                print("at line 72", f"Authenticated user: {user}")
-                if user.is_active:
-                    login(request, user)
-                    return redirect("register")
-                else:
-                    messages.error(request, "Account is inactive.")
-            else:
-                messages.error(request, "Invalid username or password")
-                print("at line 84 Authentication failed")
+#login view function checking with the data base authenticating
+def user_login(request):
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            fm = AuthenticationForm(request=request, data= request.POST)
+            if fm.is_valid():
+                uname = fm.cleaned_data['username']
+                upass = fm.cleaned_data['password']
+                user = authenticate(username=uname, password=upass)
+                if user is not None:
+                    login(request,user)
+                    messages.success(request,'Logged in successfully')
+                    return HttpResponseRedirect('/tasks/home/')
         else:
-            print("at line 86 Form is not valid")
+            fm = AuthenticationForm()
+        return render(request,'users/userlogin.html',{'form':fm})
     else:
-        form = LoginForm()
-    return render(request, "users/login.html", {"form": form})
+        return HttpResponseRedirect('/tasks/home/')
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/user/login/')
