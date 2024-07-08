@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container mt-5 px-40">
     <h2 class="text-center">Login Page</h2>
-    <form action="" method="post" novalidate>
+    <form action="" method="post" >
         {% csrf_token %}
         {% if form.non_field_errors %}
             {% for error in form.non_field_errors %}

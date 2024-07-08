@@ -1,6 +1,7 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from tasks.forms import TaskForm
 from tasks.models import Task
+from users.models import CustomUser
 
 # Create your views here.
 def showtaskformdata(request):
@@ -19,8 +20,13 @@ def showtaskformdata(request):
     return render(request,"tasks/showtask.html",{"form":fm})    
 
 def showtasksummary(request):
-    sum = Task.objects.all()
-    return render(request, 'tasks/tasksummary.html', {'summary':sum})
+    # if request.user.is_authenticated:
+    #     user = get_object_or_404(CustomUser, username=request.user.username)
+    #     sum = Task.objects.filter(user=user)
+        sum = Task.objects.all()
+        return render(request, 'tasks/tasksummary.html', {'summary':sum})
+    # else:
+    #     return HttpResponseRedirect('/user/login/')
 
 def update_task(request, id):
     if request.method == 'POST':
