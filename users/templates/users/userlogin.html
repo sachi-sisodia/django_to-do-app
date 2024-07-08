@@ -13,7 +13,11 @@
         {% for fm in form %}
             {{fm.label_tag}} {{fm|add_class:'form-control'}}{{fm.errors|striptags}} <br>
         {% endfor %}
-        <input type="submit" value="Submit">
+        <div class="d-flex justify-content-center">
+            <input class="add-button-direct2 aligndiv" type="submit" value="Login">
+        </div>
     </form>
-    <a href="{% url 'signup' %}">Signup</a>
+    <br>
+    <div class="small">First time here! Please <a href="{% url 'signup' %}">Signup</a> here</div>
+    
 {% endblock content %}

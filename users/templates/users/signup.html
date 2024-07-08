@@ -1,18 +1,21 @@
 {% extends 'tasks/base.html' %}
 {% block content %}
 <div class="container mt-5 px-40">
-    <h2 class="text-center">Signup Form</h2>
+    <h2 class="heading">Signup Form</h2>
     <form action="" method="post" novalidate>
         {% csrf_token %}
         {% for fm in form %}
             {{fm.label_tag}} {{fm}} {{fm.errors|striptags}} <br>
         {% endfor %}
-        <input type="submit" value="Submit">
-    </form>
+        <div class="d-flex justify-content-center"><input class="add-button-direct2 aligndiv" type="submit" value="Signup">
+        </form></div>
+        
     {% if messages %}
         {% for message in messages %}
         <small {% if messages.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
         {% endfor %}
     {% endif %}
-    <a href="{% url 'login' %}">Login</a>
+    <br>
+    <div class="small">Already a user! Please <a href="{% url 'login' %}">Login</a> here</div>
+    
 {% endblock content %}
