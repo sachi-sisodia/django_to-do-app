@@ -1,10 +1,17 @@
 {% extends 'tasks/base.html' %}
 {% block content %}
-<div class="container mt-5 px-40">
-    <a href="{% url 'tasksadd' %}">Add</a>
-    <h1 class="text-center">Tasks</h1>
+<div class="container mt-5 px-40" id="trial">
+    <div class="heading">
+        <div >
+            <h1>Tasks</h1>
+        </div>
+        <div class="add-button">
+        <a class="add-button-direct" href="{% url 'tasksadd' %}">Add</a>
+        </div>
+    </div>
+    <br><br>
     {% if summary %}
-        <table class="table table-hover">
+        <table  class="table table-hover" >
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -12,8 +19,7 @@
                     <th scope="col">Date Created</th>
                     <th scope="col">Goal Date</th>
                     <th scope="col">Done</th>
-                    <th scope="col">User</th>
-                    <th scope="col" >Actions</th>
+                    <th scope="col" style="text-align: center;" >Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,14 +40,25 @@
                             {% else %}
                             &#10062;
                             {% endif %}
-                        </td>
-                        <td>{{task.user}}</td>      
+                        </td>   
                         <td>
-                            <a href="{% url 'taskupdate' task.id %}" >Edit</a>
-                            <form action="{% url 'taskdelete' task.id %}" method="post">{% csrf_token %}
-                                <input type="submit" value="Delete">
-                            </form>
-                            <a href="#" >View</a>
+                            <div class="features">
+                                <div class="aligndiv">
+                                    <a class="add-button-direct2 mrgin-top" href="{% url 'taskupdate' task.id %}" >Edit</a>
+                                </div>
+                                
+                                <div class="aligndiv">
+                                    <form action="{% url 'taskdelete' task.id %}" method="post">{% csrf_token %}
+                                        <input class="add-button-direct2 mrgin-top" type="submit" value="Delete">
+                                    </form>
+                                </div>
+                            
+                                <div class="aligndiv">
+                                    <a class="add-button-direct2 mrgin-top" href="#" >View</a>
+                                </div>
+                               
+                                
+                            </div> 
                         </td>             
                     </tr>
                 {% endfor %}

@@ -2,12 +2,14 @@ from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from tasks.forms import TaskForm
 from tasks.models import Task
 from users.models import CustomUser
+from django.contrib import messages
 
 # Create your views here.
 def showtaskformdata(request):
     if request.method == 'POST':
         fm = TaskForm(request.POST)
         if fm.is_valid():
+            messages.success(request, 'Task Added Successfully!')
             title = fm.cleaned_data['title']
             description = fm.cleaned_data['description']
             date = fm.cleaned_data['date']

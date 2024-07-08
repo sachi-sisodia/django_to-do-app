@@ -8,6 +8,11 @@
         {{form.as_p}}
         <input type="submit" value="Submit">
     </form>
+    {% if messages %}
+        {% for message in messages %}
+        <small {% if messages.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
+        {% endfor %}
+    {% endif %}
     <a href="{% url 'tasksummary' %}">See the listView</a>
 </div>
 
