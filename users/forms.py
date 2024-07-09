@@ -1,14 +1,19 @@
 from django import forms
 from users.models import CustomUser
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import  UserCreationForm
+from django.core import validators
+
+def alpha(value):
+    if value[0].isnumeric():
+        raise forms.ValidationError('Name should not start or contain numbers only')
 
 class SignUpForm(UserCreationForm) :
     password1=forms.CharField(
-        label='Password1',
+        label='Password',
         widget=forms.PasswordInput(attrs={'class':'form-control'}),
     )
     password2=forms.CharField(
-        label='Password2',
+        label='Confirm Password',
         widget=forms.PasswordInput(attrs={'class':'form-control'}),
     )
     class Meta:
@@ -19,7 +24,7 @@ class SignUpForm(UserCreationForm) :
             'name': forms.TextInput(attrs={'class':'form-control'}),
             'email': forms.EmailInput(attrs={'class':'form-control'}),
         }
-
+        labels = {'email':'Email'}
 # class LoginForm(forms.Form):
 #     username = forms.CharField(max_length=150)
 #     password = forms.CharField(widget=forms.PasswordInput)

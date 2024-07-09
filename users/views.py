@@ -1,8 +1,10 @@
+from django.forms import ValidationError
 from django.shortcuts import render, HttpResponseRedirect
 from users.forms import SignUpForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from users.forms import alpha
 
 #Create your views here
 
@@ -10,9 +12,19 @@ from django.contrib.auth import authenticate, login, logout
 def sign_up(request):
     if request.method == "POST":
         fm = SignUpForm(request.POST)
-        if fm.is_valid():
-            messages.success(request, 'Account Created Successfully!')
-            fm.save()
+        try:
+                field_name='username'
+                field_value = request.POST.get(field_name)
+                alpha(field_value)
+        
+                if fm.is_valid():
+            # uname = fm.cleaned_data['username']
+            # alpha(uname)
+            
+                    messages.success(request, 'Account Created Successfully!')
+                    fm.save()
+        except ValidationError:
+            messages.error(request, f"Username is not valid.")
     else:
         fm= SignUpForm()
     return render(request, 'users/signup.html',{'form':fm})

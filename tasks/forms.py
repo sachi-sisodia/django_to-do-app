@@ -12,3 +12,4 @@ class TaskForm(forms.ModelForm):
             'is_completed': forms.CheckboxInput(attrs={'class':'form-check'}),
             # 'user': forms.Select(attrs={'class':'form-control'}),
         }
+        

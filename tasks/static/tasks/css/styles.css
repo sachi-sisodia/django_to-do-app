@@ -17,6 +17,12 @@ body{
     background-color: #fbfbf8;
 }
 
+
+.er{
+    color: red;
+}
+
+
 .table{
     --bs-table-color-type: #25291C;
     --bs-table-bg-type:  #fbfbf8;

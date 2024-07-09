@@ -7,11 +7,11 @@
         {% csrf_token %}
         {% if form.non_field_errors %}
             {% for error in form.non_field_errors %}
-            <p class="er">{{error}}</p>
+            <small class="er">{{error}}</small>
             {% endfor %}
         {% endif %}
         {% for fm in form %}
-            {{fm.label_tag}} {{fm|add_class:'form-control'}}{{fm.errors|striptags}} <br>
+            {{fm.label_tag}} {{fm|add_class:'form-control'}}<small class="er">{{fm.errors|striptags}} </small><br>
         {% endfor %}
         <div class="d-flex justify-content-center">
             <input class="add-button-direct2 aligndiv" type="submit" value="Login">
