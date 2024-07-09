@@ -1,0 +1,78 @@
+{% extends 'tasks/base.html' %}
+{% block content %}
+<div class="container mt-5 px-40" id="trial">
+    <div class="heading">
+        <div >
+            <h1>Tasks</h1>
+        </div>
+        <div class="add-button">
+            <a class="add-button-direct" href="{% url 'tasksadd' %}">Add</a>
+        </div>
+        <div class="add-button">
+            <a class="add-button-direct" href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+    <br><br>
+    {% if summary %}
+        <table  class="table table-hover" >
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col" style="width: 30%;">Title</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Goal Date</th>
+                    <th scope="col">Done</th>
+                    <th scope="col" style="text-align: center;" >Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in summary %}
+                    <tr>
+                        <th>{{ forloop.counter }}</th>
+                        <td>
+                            <table>
+                                <tr><b>{{task.title|truncatechars:40}}</b></tr>
+                                <td>{{task.description|truncatechars:40}}</td>
+                            </table>
+                        </td>
+                        <td>{{task.created_at}}</td>
+                        <td>{{task.date}}</td>
+                        <td>
+                            {% if task.is_completed %}
+                            &#9989;
+                            {% else %}
+                            &#10062;
+                            {% endif %}
+                        </td>   
+                        <td>
+                            <div class="features">
+                                <div class="aligndiv">
+                                    <a class="add-button-direct2 mrgin-top" href="{% url 'taskupdate' task.id %}" >Edit</a>
+                                </div>
+                                
+                                <div class="aligndiv">
+                                    <form action="{% url 'taskdelete' task.id %}" method="post">{% csrf_token %}
+                                        <input class="add-button-direct2 aligndiv" type="submit" value="Delete">
+                                    </form>
+                                </div>
+                            
+                                <div class="aligndiv">
+                                    <a class="add-button-direct2 mrgin-top" href="#" >View</a>
+                                </div>
+                               
+                                
+                            </div> 
+                        </td>             
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+     {% if messages %}
+        {% for message in messages %}
+        <small {% if messages.tags %} class="{{message.tags}}" {% endif %}>{{message}}</small>
+        {% endfor %}
+    {% endif %}
+    
+</div>
+{% endblock content %}

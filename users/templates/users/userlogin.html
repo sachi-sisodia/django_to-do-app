@@ -1,0 +1,23 @@
+{% extends 'tasks/base.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="container mt-5 px-40">
+    <h2 class="text-center">Login Page</h2>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <small class="er">{{error}}</small>
+            {% endfor %}
+        {% endif %}
+        {% for fm in form %}
+            {{fm.label_tag}} {{fm|add_class:'form-control'}}<small class="er">{{fm.errors|striptags}} </small><br>
+        {% endfor %}
+        <div class="d-flex justify-content-center">
+            <input class="add-button-direct2 aligndiv" type="submit" value="Login">
+        </div>
+    </form>
+    <br>
+    <div class="small">First time here! Please <a href="{% url 'signup' %}">Signup</a> here</div>
+    
+{% endblock content %}
